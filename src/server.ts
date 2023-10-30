@@ -1,15 +1,14 @@
 import express from 'express';
-import { categoriesRoutes } from './routes/categories.routes';
+import swaggerUi from 'swagger-ui-express'
+import { router } from './routes';
+import swaggerFile from './swagger.json';
 
 const app = express();
 
 app.use(express.json());
 
-app.use("/categories",categoriesRoutes);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
-app.post("/courses", (req, res) => {
-  const { name } = req.body;
-  return res.json({ name });
-})
+app.use(router);
 
 app.listen(3333, () => console.log("Server is running!"))
